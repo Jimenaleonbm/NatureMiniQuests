@@ -10,7 +10,7 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 
 ## MVP scope (must-have)
 ### Platforms
-- Flutter app supporting **iOS + Android**.
+- React Native app (Expo) supporting **iOS + Android**.
 
 ### Map & location
 - Mapbox map with a **dark style**.
@@ -41,7 +41,8 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 - Advanced anti-spoofing
 
 ## Recommended tech stack
-- **Flutter** (single codebase)
+- **React Native** with **Expo** (single codebase, iOS + Android)
+- **Node.js** + **npm** (or yarn/pnpm) for dependency management
 - **Mapbox** (map rendering + styling)
 - **Firebase**
   - Auth (anonymous for MVP)
@@ -51,7 +52,7 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 
 ## Milestones (6-week plan)
 ### Week 1 — Foundations
-- Flutter project setup
+- React Native (Expo) project setup (`npx create-expo-app`)
 - Firebase project + Auth (anonymous)
 - Firestore connection
 - Define data model + seed sample quest/checkpoints

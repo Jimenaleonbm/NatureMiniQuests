@@ -10,10 +10,10 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 
 ## MVP scope (must-have)
 ### Platforms
-- React Native app (Expo) supporting **iOS + Android**.
+- Mobile app supporting **iOS + Android**.
 
 ### Map & location
-- Interactive map (Google/Apple maps via `react-native-maps` for MVP).
+- Interactive map showing real-world geography.
 - Show user location (foreground only — **no background tracking** in MVP).
 - Show checkpoint markers and checkpoint radius zones on the map.
 
@@ -22,7 +22,7 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 - Quest detail view with ordered checkpoints.
 - **Manual check-in** button.
 - Ordered checkpoint completion rule (**in order**).
-- Persist progress per user **locally on-device** for MVP (upgradeable later).
+- Persist progress per user (on-device for MVP; upgradeable to a remote backend later).
 - Basic reward UI on quest completion (badge/xp placeholder).
 
 ### Guardrails (anti-cheat-lite)
@@ -40,36 +40,41 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 - Full offline maps / offline tile packs
 - Advanced anti-spoofing
 
-## Recommended tech stack
-- **React Native** with **Expo** (single codebase, iOS + Android)
-- **Node.js** + **npm** (or yarn/pnpm) for dependency management
-- **react-native-maps** (Google Maps on Android, Apple Maps on iOS) for the MVP map
-- Optional later:
-  - **Mapbox** (more stylized maps)
-  - **Firebase** (Auth/Firestore/Analytics) once the core loop is validated
+## Technology decision (open)
+The technology stack has not been decided. Key capability requirements for any chosen stack:
+
+- Cross-platform iOS + Android support from a single codebase (or two native codebases if preferred).
+- Access to device GPS / location services (foreground only for MVP).
+- An interactive map component that can render markers and radius circles.
+- Local or remote persistence for user progress data.
+- Ability to bundle or fetch admin-curated quest content.
+
+Evaluation criteria: developer familiarity, community/library maturity, map integration quality, and ease of on-device testing.
+
+A specific stack will be chosen before development begins and documented here once decided.
 
 ## Milestones (6-week plan)
 
 ### Week 1 — Foundations
 
 **Deliverables**
-- Expo React Native app bootstrapped and runnable on iOS + Android (Expo Go OK).
+- Mobile app bootstrapped and runnable on iOS + Android (simulator/emulator OK).
 - Navigation skeleton:
   - **Quests** (list)
   - **Quest Detail** (checkpoint list + status)
   - **Map** screen placeholder (real map comes Week 2).
-- Local content pack: a versioned JSON file (e.g. `assets/content/evergreen.json`) with:
+- Local content pack: a versioned data file (e.g. JSON) with:
   - 1 quest for **Evergreen / Brick Works**
   - 3–6 ordered checkpoints (id, name, lat, lng, radiusM, order/index).
 - Local progress persistence:
-  - Save per-user progress on-device (AsyncStorage is fine for MVP).
+  - Save per-user progress on-device for MVP.
   - In-order completion rule enforced (only the “next” checkpoint can be completed).
 - Data/service boundary for future scaling:
-  - Create a small repository layer (e.g. `QuestRepository`) with a `LocalJsonQuestRepository` implementation so Firestore can be added later without rewriting UI.
+  - Create a small repository/service layer (e.g. `QuestRepository`) with a local implementation so a remote backend can be added later without rewriting UI.
 
 **Exit criteria**
 - App runs without errors on both iOS and Android.
-- Quests list loads from local JSON and shows basic quest info + progress (e.g. `0/5`).
+- Quests list loads from local data and shows basic quest info + progress (e.g. `0/5`).
 - Quest Detail shows checkpoints in order with clear states: **completed / next / locked**.
 - Progress persists across app restarts.
 - Simple dev-only controls exist to speed testing (at least **Reset progress**, and a temporary **Complete next checkpoint** button until real check-in exists).
@@ -83,15 +88,15 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 
 ---
 
-### Week 2 — Maps + foreground location (Google/Apple maps)
+### Week 2 — Maps + foreground location
 
 **Deliverables**
-- Implement Map screen using **`react-native-maps`** (Google Maps on Android, Apple Maps on iOS).
+- Implement Map screen using a map library appropriate for the chosen stack.
 - Foreground location:
-  - Request permission (Expo Location)
+  - Request permission
   - Get live position updates in foreground
   - Show user location on the map
-- Render Evergreen content on map (from local JSON):
+- Render Evergreen content on map (from local data):
   - **Checkpoint markers**
   - **Zones**: checkpoint **radius circles** (from `radiusM`)
 - Map UX basics:
@@ -105,7 +110,7 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 - Map loads reliably on iOS + Android.
 - Location permission flow has clear states (loading / denied / granted).
 - User location is visible and updates in foreground.
-- All checkpoint markers + radius circles render from the JSON.
+- All checkpoint markers + radius circles render from the data.
 
 **Demo / manual test**
 1. Fresh install → open Map → allow location → see user location + Evergreen markers.
@@ -118,7 +123,7 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 ### Week 3 — Quest list + quest detail + map integration
 
 **Deliverables**
-- Quests list (from local JSON) with:
+- Quests list (from local data) with:
   - quest title + short description
   - progress summary (e.g., `2/5`)
   - “Start / Continue” primary action
@@ -249,4 +254,4 @@ A mobile app (iOS + Android) that encourages outdoor exploration in Toronto by o
 - Works on iOS and Android
 - Manual test steps included in PR description
 - No regressions in quest check-in flow
-- Docs updated if behavior/data model changes
+- Docs updated if behavior, data model, or tech decisions change

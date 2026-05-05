@@ -3,8 +3,8 @@
 This document defines the MVP user stories for **Toronto Nature Mini Quests** focusing on **Don Valley / Evergreen Brick Works**.
 
 ## Global assumptions
-- App runs on iOS + Android.
-- Location permission: **While Using the App**.
+- App runs on iOS + Android (mobile).
+- Location permission: **While Using the App** (foreground only).
 - Quests and checkpoints are **admin-curated**.
 - Checkpoints are completed **in order**.
 - Check-in is **manual** (button).
@@ -69,7 +69,7 @@ This document defines the MVP user stories for **Toronto Nature Mini Quests** fo
 4. App activates next checkpoint.
 
 **Acceptance criteria:**
-- Completion is persisted to Firestore.
+- Completion is persisted (on-device for MVP; upgradeable to a remote backend later).
 - UI updates immediately (optimistic update is OK; must reconcile on failure).
 
 ---
@@ -119,7 +119,7 @@ This document defines the MVP user stories for **Toronto Nature Mini Quests** fo
 3. App shows reward modal (badge/xp placeholder) and updates profile stats.
 
 **Acceptance criteria:**
-- Quest status becomes `completed` in Firestore.
+- Quest status becomes `completed` in persistent storage.
 - Quest list shows completed state.
 
 ---
